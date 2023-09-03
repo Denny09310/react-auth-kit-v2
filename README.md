@@ -1,6 +1,6 @@
-# Secure Auth React
+# React Auth Kit v2
 
-Secure Auth React is a TypeScript library for managing authentication state in React applications. It provides a flexible and agnostic solution for handling user authentication and token management.
+React Auth Kit v2 is a TypeScript library for managing authentication state in React applications. It builds upon the original "react-auth-kit" with enhancements and improvements, offering a robust solution for handling user authentication and token management.
 
 ## Features
 
@@ -12,26 +12,27 @@ Secure Auth React is a TypeScript library for managing authentication state in R
 
 ## Installation
 
-You can install Secure Auth React via npm or pnpm:
+You can install React Auth Kit v2 via npm or yarn:
 
 ```bash
-npm install @secure-auth/react
+npm install react-auth-kit-v2
 # OR
-yarn add @secure-auth/react
+pnpm install react-auth-kit-v2
 # OR
-pnpm install @secure-auth/react
+yarn add react-auth-kit-v2
 ```
 
 ## Usage
-Here's how you can get started with Secure Auth React in your React application:
+Here's how you can get started with React Auth Kit v2 in your React application:
 
 ```tsx
+Copy code
 import React from 'react';
-import { AuthProvider } from 'secure-auth-react';
+import { AuthProvider } from 'react-auth-kit-v2';
 
 function App() {
   return (
-    <AuthProvider>
+    <AuthProvider authType="token">
       {/* Your application components */}
     </AuthProvider>
   );
@@ -40,13 +41,11 @@ function App() {
 export default App;
 ```
 
-For more detailed usage instructions and customization options, please refer to the documentation.
-
 ## Documentation
-Check out the official documentation for in-depth guides, examples, and API reference.
+The official documentation for React Auth Kit v2 is currently under development. Stay tuned for in-depth guides, examples, and API references.
 
 ## Contributing
-We welcome contributions from the community. If you'd like to contribute to Secure Auth React, please follow our contribution guidelines.
+We welcome contributions from the community to make React Auth Kit v2 even better. Whether it's reporting issues, suggesting improvements, or submitting pull requests, your help is valuable. Please follow our contribution guidelines to get started.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
@@ -56,9 +55,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - React Router
 - TypeScript
 - Immer
-- [react-auth-kit](https://github.com/react-auth-kit/react-auth-kit)
+- Original react-auth-kit
 
 ## Contact
-If you have any questions or issues, please feel free to contact us at k.denny2000@gmail.com.
-
-## 
+If you have any questions, suggestions, or issues, please feel free to contact us at k.denny2000@gmail.com.
