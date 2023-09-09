@@ -1,5 +1,11 @@
 # react-auth-kit-v2
 
+## 1.1.7
+
+### Patch Changes
+
+- (fix) fixed auto-signout when cookie/token invalid or missinig
+
 ## 1.1.6
 
 ### Patch Changes

@@ -25,7 +25,10 @@ export function syncAuthStateCookie({
 
   if (refresh != null) {
     cookie.set(`${authName}RefreshToken`, refresh.token ?? "");
-    cookie.set(`${authName}RefreshTokenTime`, refresh.expiresAt?.toISOString() ?? "");
+
+    if (refresh.expiresAt) {
+      cookie.set(`${authName}RefreshTokenTime`, refresh.expiresAt?.toISOString() ?? "");
+    }
   }
 }
 
@@ -41,7 +44,11 @@ export function deleteAuthStateCookie({ authName, cookieDomain: domain, cookieSe
 }
 
 export function checkAuthStateCookie({ provider, dispatch }: CheckAuthStateParameters) {
-  if (provider.authType !== "cookie") return;
+  if (provider.authType !== "cookie") {
+    dispatch({ type: "SIGN_OUT" });
+    return;
+  }
+
   const { cookieDomain: domain, cookieSecure: secure, authName } = provider;
 
   const cookie = new Cookies(null, { domain, secure });
@@ -53,21 +60,23 @@ export function checkAuthStateCookie({ provider, dispatch }: CheckAuthStateParam
   const refreshToken = cookie.get(`${authName}RefreshToken`);
   const refreshTokenTime = cookie.get(`${authName}RefreshTokenTime`);
 
-  if (!token || !type) return;
-
-  dispatch({
-    type: "SIGN_IN",
-    payload: {
-      auth: {
-        type,
-        token,
-        expiresAt: tokenTime ? new Date(tokenTime) : undefined,
+  if (!token || !type) {
+    dispatch({ type: "SIGN_OUT" });
+  } else {
+    dispatch({
+      type: "SIGN_IN",
+      payload: {
+        auth: {
+          type,
+          token,
+          expiresAt: tokenTime ? new Date(tokenTime) : undefined,
+        },
+        refresh: {
+          token: refreshToken ?? undefined,
+          expiresAt: refreshTokenTime ? new Date(refreshTokenTime) : undefined,
+        },
+        user: authState ? JSON.parse(authState) : undefined,
       },
-      refresh: {
-        token: refreshToken ?? undefined,
-        expiresAt: refreshTokenTime ? new Date(refreshTokenTime) : undefined,
-      },
-      user: authState ? JSON.parse(authState) : undefined,
-    },
-  });
+    });
+  }
 }

@@ -13,11 +13,9 @@ const Login = () => {
         auth: {
           type: "Bearer",
           token,
-          expiresAt: new Date(),
         },
         refresh: {
           token: "refresh-token",
-          expiresAt: new Date(),
         },
         user: rest,
       });
