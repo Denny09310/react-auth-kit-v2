@@ -1,5 +1,17 @@
 # react-auth-kit-v2
 
+## 1.1.5
+
+### Patch Changes
+
+- (fix) removed required expireAt on signin
+
+## 1.1.4
+
+### Patch Changes
+
+- a32c03f: (fix) used current npm environment version
+
 ## 1.1.3
 
 ### Patch Changes

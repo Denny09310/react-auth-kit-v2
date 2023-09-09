@@ -1,7 +1,7 @@
 import { AccessToken, RefreshToken, UserState, WithRequired } from "./types";
 
 export interface SignInActionPayload {
-  auth: Required<AccessToken>;
+  auth: WithRequired<AccessToken, "token">;
   refresh?: RefreshToken;
   user?: UserState;
 }
