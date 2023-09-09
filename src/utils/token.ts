@@ -17,7 +17,10 @@ export function syncAuthStateToken({ authName, payload }: Omit<SyncAuthStatePara
 
   if (refresh != null) {
     localStorage.setItem(`${authName}RefreshToken`, refresh.token ?? "");
-    localStorage.setItem(`${authName}RefreshTokenTime`, refresh.expiresAt?.toISOString() ?? "");
+
+    if (refresh.expiresAt) {
+      localStorage.setItem(`${authName}RefreshTokenTime`, refresh.expiresAt?.toISOString() ?? "");
+    }
   }
 }
 
@@ -40,21 +43,23 @@ export function checkAuthStateToken({ provider, dispatch }: CheckAuthStateParame
   const refreshToken = localStorage.getItem(`${authName}RefreshToken`);
   const refreshTokenTime = localStorage.getItem(`${authName}RefreshTokenTime`);
 
-  if (!token || !type) return;
-
-  dispatch({
-    type: "SIGN_IN",
-    payload: {
-      auth: {
-        type,
-        token,
-        expiresAt: tokenTime ? new Date(tokenTime) : undefined,
+  if (!token || !type) {
+    dispatch({ type: "SIGN_OUT" });
+  } else {
+    dispatch({
+      type: "SIGN_IN",
+      payload: {
+        auth: {
+          type,
+          token,
+          expiresAt: tokenTime ? new Date(tokenTime) : undefined,
+        },
+        refresh: {
+          token: refreshToken ?? undefined,
+          expiresAt: refreshTokenTime ? new Date(refreshTokenTime) : undefined,
+        },
+        user: authState ? JSON.parse(authState) : undefined,
       },
-      refresh: {
-        token: refreshToken ?? undefined,
-        expiresAt: refreshTokenTime ? new Date(refreshTokenTime) : undefined,
-      },
-      user: authState ? JSON.parse(authState) : undefined,
-    },
-  });
+    });
+  }
 }

@@ -63,7 +63,9 @@ function activateRefreshTokenAction(state: AuthState) {
 }
 
 function signOutAction() {
-  return initialState;
+  return produce(initialState, (draft) => {
+    draft.isAuthenticated = false;
+  });
 }
 
 export { createReducer, initialState };
