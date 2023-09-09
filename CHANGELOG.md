@@ -1,5 +1,13 @@
 # react-auth-kit-v2
 
+## 1.1.6
+
+### Patch Changes
+
+- (feat) added initial check for auth state
+  (fix) fixed key of user state when saved
+  (fix) added intermediate state for isAuthenticated when checking the authState
+
 ## 1.1.5
 
 ### Patch Changes

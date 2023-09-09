@@ -29,15 +29,11 @@ interface ErrorRefreshTokenCallbackResponse {
   success: false;
 }
 
-export type RefreshTokenCallbackResponse =
-  | SuccessRefreshTokenCallbackResponse
-  | ErrorRefreshTokenCallbackResponse;
+export type RefreshTokenCallbackResponse = SuccessRefreshTokenCallbackResponse | ErrorRefreshTokenCallbackResponse;
 
 export interface RefreshTokenCallback {
   interval: number;
-  apiCallback: (
-    props: RefreshTokenCallbackRequest
-  ) => Promise<RefreshTokenCallbackResponse>;
+  apiCallback: (props: RefreshTokenCallbackRequest) => Promise<RefreshTokenCallbackResponse>;
 }
 
 export interface AccessToken {
@@ -58,6 +54,11 @@ export interface RefreshTokenCallbackHandlerParameters {
   dispatch: React.Dispatch<KnownActions>;
 }
 
+export type CheckAuthStateParameters = {
+  provider: WithRequired<AuthProviderProps, "authName">;
+  dispatch: React.Dispatch<KnownActions>;
+};
+
 export interface DeleteAuthStateParameters {
   authType: AuthProviderProps["authType"];
   authName: string;
@@ -67,19 +68,17 @@ export interface SyncAuthStateParameters extends DeleteAuthStateParameters {
   payload: RefreshTokenActionPayload | SignInActionPayload;
 }
 
-export interface DeleteAuthStateCookieParameters
-  extends DeleteAuthStateParameters {
+export interface DeleteAuthStateCookieParameters extends DeleteAuthStateParameters {
   cookieDomain: string;
   cookieSecure: boolean;
 }
 
-export type SyncAuthStateCookieParameters = SyncAuthStateParameters &
-  DeleteAuthStateCookieParameters;
+export type SyncAuthStateCookieParameters = SyncAuthStateParameters & DeleteAuthStateCookieParameters;
 
 export interface AuthState {
   auth: AccessToken | undefined;
   refresh: RefreshToken | undefined;
   user: UserState | undefined;
-  isAuthenticated: boolean;
+  isAuthenticated: boolean | null;
   isUsingRefreshToken: boolean;
 }
