@@ -1,4 +1,4 @@
-export { default as AuthProvider } from './AuthProvider'
+export { default as AuthProvider } from "./AuthProvider";
 
-export * from './hooks'
-export * from './types'
+export * from "./hooks";
+export * from "./types";
