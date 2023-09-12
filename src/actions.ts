@@ -30,10 +30,6 @@ interface SignOutAction {
   type: "SIGN_OUT";
 }
 
-type KnownActions =
-  | SignInAction
-  | RefreshTokenAction
-  | SignOutAction
-  | ActivateRefreshTokenAction;
+type KnownActions = SignInAction | RefreshTokenAction | SignOutAction | ActivateRefreshTokenAction;
 
 export default KnownActions;

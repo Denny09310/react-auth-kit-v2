@@ -36,6 +36,8 @@ export interface RefreshTokenCallback {
   apiCallback: (props: RefreshTokenCallbackRequest) => Promise<RefreshTokenCallbackResponse>;
 }
 
+export type AuthenticateCallback = () => Promise<boolean>;
+
 export interface AccessToken {
   type: string;
   token?: string;

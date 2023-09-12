@@ -1,6 +1,6 @@
 {
   "name": "react-auth-kit-v2",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "A library to manage the authentication states of a React application",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -23,7 +23,7 @@
     "@types/react-dom": "^18.2.7",
     "tsup": "^7.2.0",
     "typescript": "^5.2.2",
-    "vitest": "^0.34.3"
+    "vitest": "^0.34.4"
   },
   "peerDependencies": {
     "immer": "^10.0.2",

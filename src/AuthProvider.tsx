@@ -2,12 +2,13 @@ import type React from "react";
 import { type PropsWithChildren, useEffect, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { createReducer, initialState } from "./reducers";
-import { type CookieAuthProps, type RefreshTokenCallback, type TokenAuthProps } from "./types";
+import { AuthenticateCallback, type CookieAuthProps, type RefreshTokenCallback, type TokenAuthProps } from "./types";
 import { checkAuthState, handleRefreshInterval } from "./utils";
 
 interface BaseAuthProviderProps {
   authName?: string;
   refresh?: RefreshTokenCallback;
+  authenticate?: AuthenticateCallback;
 }
 
 type Props = BaseAuthProviderProps & (CookieAuthProps | TokenAuthProps);

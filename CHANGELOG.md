@@ -1,5 +1,13 @@
 # react-auth-kit-v2
 
+## 1.1.8
+
+### Patch Changes
+
+- (feat) added authenticate function on start
+  (fix) linting and formatting codebase
+  (issue) when the user is not authenticated the storage is not cleared
+
 ## 1.1.7
 
 ### Patch Changes

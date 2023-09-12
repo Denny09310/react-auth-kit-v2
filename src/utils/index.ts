@@ -1,58 +1,14 @@
-import { type RefreshTokenActionPayload } from "../actions";
 import {
   CheckAuthStateParameters,
-  type DeleteAuthStateCookieParameters,
-  type DeleteAuthStateParameters,
-  type RefreshTokenCallbackHandlerParameters,
-  type RefreshTokenCallbackRequest,
-  type SyncAuthStateCookieParameters,
-  type SyncAuthStateParameters,
+  DeleteAuthStateCookieParameters,
+  DeleteAuthStateParameters,
+  SyncAuthStateCookieParameters,
+  SyncAuthStateParameters,
 } from "../types";
 import { checkAuthStateCookie, deleteAuthStateCookie, syncAuthStateCookie } from "./cookie";
 import { checkAuthStateToken, deleteAuthStateToken, syncAuthStateToken } from "./token";
 
-export function handleRefreshInterval({ state, dispatch, provider: { authName, authType, refresh } }: RefreshTokenCallbackHandlerParameters) {
-  if (refresh == null) return;
-
-  dispatch({ type: "ACTIVATE_REFRESH_TOKEN" });
-
-  const { auth: authToken, refresh: refreshToken, user } = state;
-
-  const request: RefreshTokenCallbackRequest = {
-    accessToken: { ...authToken },
-    refreshToken: { ...refreshToken },
-    user: user ?? {},
-  };
-
-  const refreshHandler = () => {
-    refresh
-      .apiCallback(request)
-      .then((res) => {
-        if (res.success) {
-          const { accessToken, refreshToken } = res;
-
-          const payload: RefreshTokenActionPayload = {
-            ...res,
-            auth: accessToken,
-            refresh: refreshToken,
-          };
-
-          syncAuthState({ authName, authType, payload });
-          dispatch({ type: "REFRESH_TOKEN", payload });
-        }
-      })
-      .catch((err) => {
-        console.error("Error refreshing token:", err);
-      });
-  };
-
-  if (state.isAuthenticated) {
-    const id = setInterval(refreshHandler, refresh.interval);
-    return () => {
-      clearInterval(id);
-    };
-  }
-}
+export * from "./refresh";
 
 export function syncAuthState({ authType, ...props }: SyncAuthStateParameters | SyncAuthStateCookieParameters) {
   if (authType === "token") {
@@ -71,11 +27,23 @@ export function deleteAuthState({ authType, ...props }: DeleteAuthStateParameter
 }
 
 export function checkAuthState(props: CheckAuthStateParameters) {
-  const { authType } = props.provider;
+  const { authType, authenticate } = props.provider;
 
-  if (authType === "token") {
-    checkAuthStateToken(props);
-  } else if (authType === "cookie") {
-    checkAuthStateCookie(props);
+  const signOut = () => props.dispatch({ type: "SIGN_OUT" });
+
+  const check = () => {
+    if (authType === "token") {
+      checkAuthStateToken(props);
+    } else if (authType === "cookie") {
+      checkAuthStateCookie(props);
+    }
+  };
+
+  if (authenticate) {
+    authenticate()
+      .then((success) => (success ? check() : signOut()))
+      .catch(signOut);
+  } else {
+    check();
   }
 }
